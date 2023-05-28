@@ -1,10 +1,11 @@
 from main import app
-from views import MainIndexView, ProfileView, LoginView
+from views import MainIndexView, ProfileView, LoginView, AddCityView
 import sys
 
 app.add_url_rule('/', view_func=MainIndexView.as_view('index'))
 app.add_url_rule('/login', view_func=LoginView.as_view('login'))
 app.add_url_rule('/profile', view_func=ProfileView.as_view('profile'))
+app.add_url_rule('/add', view_func=AddCityView.as_view('add_city'))
 
 
 
