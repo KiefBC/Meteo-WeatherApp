@@ -36,7 +36,6 @@ class MainIndexView(MethodView):
         return int(kelvin - 273.15)
 
     @cached(cache)
-    # @cache.cached(timeout=60)
     def api_call(self, city_name: str) -> dict:
         data_object: list = []
         r = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={os.getenv("API_KEY")}')
