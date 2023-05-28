@@ -1,16 +1,21 @@
 from sqlalchemy import Column, ForeignKey, Integer, Table
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.types import String
-from main import db
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
 
 Base = declarative_base()
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 
 class WeatherModel(db.Model):
     __tablename__ = 'City'
 
-    id = db.Column(Integer, primary_key=True)
-    name = db.Column(String(255), unique=True, nullable=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), unique=True, nullable=False)
     # more to come
 
     def __repr__(self):
