@@ -1,15 +1,21 @@
-import sys
-from views import MainIndexView, LoginView, ProfileView, AddCityView
+import sys, os
+from views import MainIndexView, DeleteCity
 from models import db, app
 
 app.add_url_rule('/', view_func=MainIndexView.as_view('index'))
-app.add_url_rule('/login', view_func=LoginView.as_view('login'))
-app.add_url_rule('/profile', view_func=ProfileView.as_view('profile'))
-app.add_url_rule('/', view_func=AddCityView.as_view('add_city'))
+app.add_url_rule('/delete/<int:city_id>', view_func=DeleteCity.as_view('delete_city'))
 
 with app.app_context():
     db.drop_all()
     db.create_all()
+
+key = os.urandom(24)
+
+app.config.update({
+    'DEBUG': True,
+    'TESTING': True,
+    'SECRET_KEY': f'{key}',
+})
 
 
 # don't change the following way to run flask:
