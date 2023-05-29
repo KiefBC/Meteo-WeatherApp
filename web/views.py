@@ -18,7 +18,8 @@ class MainIndexView(MethodView):
         print(city_objs)
         return render_template(INDEX, data=city_objs)
 
-    def post(self):
+    @staticmethod
+    def post():
         city_name = request.form['input-city']
         r = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={os.getenv("API_KEY")}')
 
@@ -69,7 +70,8 @@ class MainIndexView(MethodView):
 
 
 class DeleteCity(MethodView):
-    def post(self, city_id):
+    @staticmethod
+    def post(city_id: str):
         city = WeatherModel.query.filter_by(id=city_id).first()
         if city:
             db.session.delete(city)

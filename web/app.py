@@ -1,4 +1,6 @@
-import sys, os
+import sys
+import os
+
 from views import MainIndexView, DeleteCity
 from models import db, app
 

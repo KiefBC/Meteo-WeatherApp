@@ -1,5 +1,5 @@
-from sqlalchemy import Column, ForeignKey, Integer, Table
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import Column, Integer
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.types import String
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
