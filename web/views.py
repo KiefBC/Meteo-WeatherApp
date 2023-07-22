@@ -67,7 +67,6 @@ class MainIndexView(MethodView):
         celcius: int = round(kelvin - 273.15, 2)
         return celcius
 
-    @staticmethod
     def fetch_cities(self):
         """
         Fetches all cities from the database
@@ -109,8 +108,7 @@ class WeatherAPIView(MethodView):
     View Weather Data from API
     """
 
-    @staticmethod
-    def get(city_name: str):
+    def get(self, city_name: str):
         """
         Makes a call to the OpenWeatherMap API
         :param city_name:
@@ -136,8 +134,7 @@ class WeatherAPIView(MethodView):
         else:
             return jsonify({'error': 'City not found!'}), 404
 
-    @staticmethod
-    def post(city_id: int):
+    def post(self, city_id: int):
 
         # Check if city exists
         city = WeatherModel.query.get(city_id)
