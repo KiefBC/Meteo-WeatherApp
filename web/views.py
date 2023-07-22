@@ -9,10 +9,14 @@ from cachetools import TTLCache, cached
 
 load_dotenv(override=True)  # load our API key from our .env file
 INDEX = 'index.html'
+# Cache so we don't get rate limited
 cache = TTLCache(maxsize=100, ttl=60)  # hold 100 items for 60 seconds
 
 
 class MainIndexView(MethodView):
+    """
+    Main Page View
+    """
     def get(self):
         city_objs = self.fetch_cities()
         print(city_objs)
@@ -20,30 +24,55 @@ class MainIndexView(MethodView):
 
     @staticmethod
     def post():
-        city_name = request.form['input-city']
+        # if form submission is json
+        if request.is_json:
+            city_name = request.json['city']
+        else:
+            city_name = request.form['input-city']
+
+        # make request to API and grabbing our API key from our .env file
         r = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={os.getenv("API_KEY")}')
 
         # check if request was successful
         if r.status_code == 200:
+
+            # Check if city already exists in database
             existing_city = WeatherModel.query.filter_by(name=city_name).first()
-            if existing_city:  # if city already exists
+            if existing_city:
                 flash('The city has already been added to the list!')
                 return redirect(url_for('index'))
-            new_city = WeatherModel(name=city_name)
-            db.session.add(new_city)
-            db.session.commit()
-            flash('The city has been added to the list!')
-            return redirect(url_for('index'))
+
+            else:  # Add the new city to database
+                new_city = WeatherModel(name=city_name)
+                db.session.add(new_city)
+                db.session.commit()
+                flash('The city has been added to the list!')
+                return redirect(url_for('index'))
+
+        # if request was unsuccessful
         else:
             flash("The city doesn't exist!")
             return redirect(url_for('index'))
 
     @staticmethod
     def kelvin_celcius(kelvin) -> int:
-        return int(kelvin - 273.15)
+        """
+        Converts Kelvin to Celcius
+        :param kelvin: int
+        :return: int
+        """
+
+        # Round to 2 decimal places
+        celcius: int = round(kelvin - 273.15, 2)
+        return celcius
 
     @cached(cache)
     def api_call(self, city_name: str) -> list:
+        """
+        Makes a call to the OpenWeatherMap API
+        :param city_name:
+        :return:
+        """
         data_object: list = []
         r = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={os.getenv("API_KEY")}')
         data = r.json()
@@ -56,6 +85,10 @@ class MainIndexView(MethodView):
         return data_object
 
     def fetch_cities(self):
+        """
+        Fetches all cities from the database
+        :return:
+        """
         cities = WeatherModel.query.all()
         city_objs = []
         for city in cities:
@@ -70,6 +103,9 @@ class MainIndexView(MethodView):
 
 
 class DeleteCity(MethodView):
+    """
+    Deletes a city from the database
+    """
     @staticmethod
     def post(city_id: str):
         city = WeatherModel.query.filter_by(id=city_id).first()

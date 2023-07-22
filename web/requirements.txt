@@ -1,0 +1,9 @@
+requests
+dotenv
+flask.views
+flask
+cachetools
+sqlalchemy
+flask_sqlalchemy
+Jinja2
+

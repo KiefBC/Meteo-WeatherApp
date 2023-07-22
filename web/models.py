@@ -16,7 +16,6 @@ class WeatherModel(db.Model):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255), unique=True, nullable=False)
-    # more to come
 
     def __repr__(self):
         return f'<City {self.name}>'
