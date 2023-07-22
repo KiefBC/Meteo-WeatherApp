@@ -136,6 +136,7 @@ class WeatherAPIView(MethodView):
 
     def post(self, city_id: int):
 
+        # Check if city exists
         city = WeatherModel.query.get(city_id)
         if city:
             db.session.delete(city)
@@ -156,11 +157,12 @@ class WeatherAPIView(MethodView):
 
 class WeatherAPIDeleteView(MethodView):
     """
-    Deletes a city from the database
+    Deletes a city from the database using the API
     """
-
     @staticmethod
     def post(city_id: str):
+
+        # Check if city exists
         city = WeatherModel.query.filter_by(id=city_id).first()
         if city:
             db.session.delete(city)
@@ -170,6 +172,8 @@ class WeatherAPIDeleteView(MethodView):
             response = {
                 'message': f"{city.name} has been deleted."
             }
+
+        # If city does not exist
         else:
             response = {
                 'message': f"The city with ID '{city_id}' does not exist."
