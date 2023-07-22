@@ -134,33 +134,12 @@ class WeatherAPIView(MethodView):
         else:
             return jsonify({'error': 'City not found!'}), 404
 
-    def post(self, city_id: int):
-
-        # Check if city exists
-        city = WeatherModel.query.get(city_id)
-        if city:
-            db.session.delete(city)
-            db.session.commit()
-
-            # Create a response object
-            response = {
-                'message': f"{city.name} has been deleted."
-            }
-            return jsonify(response), 200
-
-        else:
-            response = {
-                'message': f"The city with ID '{city_id}' does not exist."
-            }
-            return jsonify(response), 404
-
 
 class WeatherAPIDeleteView(MethodView):
     """
     Deletes a city from the database using the API
     """
-    @staticmethod
-    def post(city_id: str):
+    def delete(self, city_id: str):
 
         # Check if city exists
         city = WeatherModel.query.filter_by(id=city_id).first()
@@ -172,14 +151,14 @@ class WeatherAPIDeleteView(MethodView):
             response = {
                 'message': f"{city.name} has been deleted."
             }
+            return jsonify(response), 200
 
         # If city does not exist
         else:
             response = {
                 'message': f"The city with ID '{city_id}' does not exist."
             }
-
-        return jsonify(response), 200
+            return jsonify(response), 404
 
 
 @cached(cache)
