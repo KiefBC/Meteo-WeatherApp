@@ -25,8 +25,6 @@ In this Project we will use the OpenWeatherMap API to fetch the current weather 
 - Asynchronous Programming
 - Web Scraping
 - Web Development
-- Web Services
-- Web Applications
 - HTML
 - CSS
 - Python
