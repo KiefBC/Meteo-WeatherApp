@@ -12,4 +12,4 @@
 /tests.py
 
 .env
-/web/instance/database.db
+/web/instance/
