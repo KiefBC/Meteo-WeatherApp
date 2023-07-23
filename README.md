@@ -10,10 +10,11 @@ The Project is utilizing Flask and SQLAlchemy to do the heavy lifting.
 
 As it stands, you will need to add your own API KEY in order to use this. In the future I will add a Prompt to do this for you. You can get an API KEY from https://openweathermap.org/api by signing up for a FREE account.
 
-## API Endpoints
+#### Replace
 
-- /api/delete/<int:id> - Deletes the entry with the given id from the database
-- /api/<str:city> - Returns the weather data for the given city
+`requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={os.getenv("API_KEY")}')`
+
+Put your API KEY in place of this exact block of text: {os.getenv("API_KEY")}
 
 ## What I've Learned:
 
