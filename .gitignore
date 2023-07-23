@@ -7,9 +7,5 @@
 /.vscode/
 *.iml
 
-# Typical Hyperskill Files
-/test/
-/tests.py
-
 .env
 /web/instance/
