@@ -9,3 +9,5 @@
 
 .env
 /web/instance/
+__pycache__/
+```
