@@ -1,7 +1,5 @@
 # Weather App
 
-## Video Demo: https://youtu.be/uE-Po-mkUA4
-
 ### About this project
 
 In this Project we will use the OpenWeatherMap API to fetch the current weather of any city in the world, and then we will display the weather information on the screen. It is utilizing AJAX to build a more dynamic website. I have also incorporated API endpoints for viewing without the database, and the ability to delete entries from the database.
